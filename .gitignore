@@ -2,7 +2,10 @@
 /yarn.lock
 /node_modules
 /dist
-/src/secret.ts
+
 .DS_Store
+
 npm-debug.log
 yarn-error.log
+
+**/**/secret.ts

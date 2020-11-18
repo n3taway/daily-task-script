@@ -7,6 +7,5 @@
         "src/**/*.spec.ts",
         "dist",
         "node_modules"
-    ],
-    "exec": "npm run build && node dist/index.js"
+    ]
 }

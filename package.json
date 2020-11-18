@@ -1,24 +1,24 @@
 {
-  "name": "bilibili-action",
+  "name": "daily-task-script",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon",
-    "build": "babel src --out-dir dist --extensions \".ts, .tsx\" --source-maps inline",
-    "serve": "node dist/index.js"
+    "start:ac": "npm run build:ac && npm run serve:ac",
+    "build:ac": "babel src --out-dir dist --extensions \".ts, .tsx\" --source-maps inline",
+    "serve:ac": "nodemon dist/acfun/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/n3taway/bilibiliAction.git"
+    "url": "git+https://github.com/n3taway/daily-task-script.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/n3taway/bilibiliAction/issues"
+    "url": "https://github.com/n3taway/daily-task-script/issues"
   },
-  "homepage": "https://github.com/n3taway/bilibiliAction#readme",
+  "homepage": "https://github.com/n3taway/daily-task-script#readme",
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
