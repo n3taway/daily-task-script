@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:ac": "npm run build:ac && npm run serve:ac",
+    "start:ac": "nodemon --exec npm run concurrently:ac",
+    "concurrently:ac": "npm run build:ac && npm run serve:ac",
     "build:ac": "babel src --out-dir dist --extensions \".ts, .tsx\" --source-maps inline",
-    "serve:ac": "nodemon dist/acfun/index.js"
+    "serve:ac": "node dist/acfun/index.js"
   },
   "repository": {
     "type": "git",
