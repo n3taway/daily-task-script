@@ -1,6 +1,15 @@
 {
     "presets": [
-        "@babel/preset-env",
+        [
+            "@babel/preset-env",
+            {
+                // https://stackoverflow.com/questions/52704820/disable-promise-transpilation-using-babel-preset-env
+                "exclude": [
+                    "transform-regenerator",
+                    "babel-plugin-transform-async-to-generator"
+                ]
+            }
+        ],
         "@babel/typescript"
     ],
     "plugins": [
@@ -10,7 +19,8 @@
         [
             "@babel/plugin-transform-runtime",
             {
-                "regenerator": true
+                // https://babeljs.io/docs/en/babel-plugin-transform-runtime#helpers 是否编译导出方式
+                "helpers":false
             }
         ]
     ]

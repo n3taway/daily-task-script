@@ -1,4 +1,4 @@
 import { initUserInfo } from './bilibili';
-import secretCookie from './secret';
+import getSecretConfig from '../secret';
 
-initUserInfo(secretCookie);
+// initUserInfo();

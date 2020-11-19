@@ -1,8 +1,14 @@
-/package-lock.json
-/yarn.lock
-/node_modules
-/dist
+**/**/package-lock.json
+**/**/yarn.lock
+**/**/node_modules
 
+**/**/*.zip
+
+# scf目录
+**/**/scf_daily_task/*
+!**/**/scf_daily_task/.gitkeep
+
+/dist
 .DS_Store
 
 npm-debug.log
