@@ -1,24 +1,28 @@
 import Superagent from 'superagent';
-import getSecretConfig from '../secret';
+import { getServerJiangSCKEY } from '../secret';
 
 const serverJiangApi = (key) => `https://sc.ftqq.com/${key}.send`;
 
+type msgType = {
+    title: string,
+    content: string,
+    callStack?: string,
+    api?: string,
+}
 class Notification {
-    async push(msg) {
-    const secret = getSecretConfig();
+    async push(msg: msgType) {
         const response = await Superagent
-            .get(serverJiangApi(secret.server_jiang.SCKEY))
-            .query({
-                text: msg.text,
-                desp: msg.desp,
-            });
-        const res = JSON.parse(response.text) as any;
+            .post(serverJiangApi(getServerJiangSCKEY()))
+            .type('form')
+            .send(
+                {
+                    text: msg.title,
+                    desp: `####-------------------\n${msg.content}\n####time\nlocaleTime: ${new Date().toLocaleTimeString()}\n####api\n${msg.api || '空'}\n####callStack\n${msg.callStack || '空'}`,
+                }
+            );
 
-        console.log('res: ', res);
-        
-        if (res.errno !== 0) {
-            console.log('res: ', res);
-        }
+        const res = JSON.parse(response.text) as any;
+        console.log('notification push res: ', res);
     }
 }
 

@@ -1,4 +1,3 @@
-import { AcfunCookiesType } from '../acfun/store';
 import {
     server_jiang,
     acfun_secret,
@@ -8,6 +7,11 @@ import {
 type ServerJiangType = {
     SCKEY: string,
 }
+type AcfunCookiesType = {
+    acPasstoken: string;
+    auth_key: string;
+    _did: string;
+}
 type SecretType = {
     acfun: AcfunCookiesType,
     // TODO
@@ -16,13 +20,14 @@ type SecretType = {
 }
 
 
-function getSecretConfig() {
+function secretConfig() {
     let secret: SecretType = {} as SecretType;
     if (process.env.RUNTIME_ENV === 'scf') {
         secret = {
             acfun: {
                 acPasstoken: process.env.AC_ACPASSTOKEN,
                 auth_key: process.env.AC_AUTH_KEY,
+                _did: process.env.AC__DID,
             },
             bilibili: {
                 DedeUserID: process.env.BI_DEDEUSERID,
@@ -43,4 +48,15 @@ function getSecretConfig() {
     return secret;
 }
 
-export default getSecretConfig;
+export function getAcfunCookies() {
+    const secret = secretConfig();
+    const { acfun: { acPasstoken, auth_key, _did } } = secret;
+    const acfunCookies = `acPasstoken=${acPasstoken}; auth_key=${auth_key};_did=${_did};`
+    return acfunCookies;
+}
+
+
+export function getServerJiangSCKEY() {
+    const secret = secretConfig();
+    return secret.server_jiang.SCKEY;
+}
