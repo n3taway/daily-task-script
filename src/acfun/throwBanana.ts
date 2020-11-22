@@ -31,9 +31,8 @@ async function doThrowBanana(videoInfo) {
             resourceType: 2,
             count: Math.floor(Math.random() * 5 + 1),
         });
-    let result = {};
     if (response.body.result === 0) {
-        result = {
+        const result = {
             title: videoInfo.title,
             thrownBanana: response.body.extData.bananaRealCount,
             author: videoInfo.author,
