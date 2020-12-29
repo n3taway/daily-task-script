@@ -10,9 +10,9 @@ export default async function throwBanana(feedList: Array<any>) {
         const throwBananaResult = await Promise.all(videoList.map((videoInfo) => doThrowBanana(videoInfo)));
         return Promise.resolve(throwBananaResult);
     } catch (error) {
-        new Notification().push({
+        return Promise.reject({
             title: '投蕉失败',
-            content: error,
+            content: `${error}`,
             api: `${acfunApi.throwBanana}`,
         });
     }
