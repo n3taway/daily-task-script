@@ -1,48 +1,49 @@
-import Superagent from 'superagent';
-import Notification from '../notification';
-import { acfunApi } from './constant';
-import { getAcfunCookies } from '../secret';
+import Superagent from "superagent";
+import Notification from "../notification";
+import { acfunApi } from "./constant";
+import { getAcfunCookies } from "../secret";
 
 export default async function throwBanana(feedList: Array<any>) {
-    const videoList = feedList.filter(item => !item.isArticle);
-    // const getDanMuResult = await Promise.all(videoList.map((videoInfo) => getDanMu(videoInfo)));
-    try {
-        const throwBananaResult = await Promise.all(videoList.map((videoInfo) => doThrowBanana(videoInfo)));
-        return Promise.resolve(throwBananaResult);
-    } catch (error) {
-        return Promise.reject({
-            title: '投蕉失败',
-            content: `${error}`,
-            api: `${acfunApi.throwBanana}`,
-        });
-    }
+  const videoList = feedList.filter((item) => !item.isArticle);
+  // const getDanMuResult = await Promise.all(videoList.map((videoInfo) => getDanMu(videoInfo)));
+  try {
+    const throwBananaResult = await Promise.all(
+      videoList.map((videoInfo) => doThrowBanana(videoInfo))
+    );
+    return Promise.resolve(throwBananaResult);
+  } catch (error) {
+    return Promise.reject({
+      title: "投蕉失败",
+      content: `${error}`,
+      api: `${acfunApi.throwBanana}`,
+    });
+  }
 }
 
 // 投蕉
 async function doThrowBanana(videoInfo) {
-    const response = await Superagent.post(acfunApi.throwBanana)
-        .set('Cookie', getAcfunCookies())
-        // .set('referer', 'https://www.acfun.cn/a/ac<x>') //文章
-        .set('referer', `https://www.acfun.cn/v/ac${videoInfo.cid}`)
-        .type('form')
-        .send({
-            resourceId: videoInfo.cid,
-            // resourceType: 3, //文章
-            resourceType: 2,
-            count: Math.floor(Math.random() * 5 + 1),
-        });
-    if (response.body.result === 0) {
-        const result = {
-            title: videoInfo.title,
-            thrownBanana: response.body.extData.bananaRealCount,
-            author: videoInfo.author,
-        }
-        return Promise.resolve(result)
-    } else {
-        return Promise.reject(response.body.error_msg)
-    }
+  const response = await Superagent.post(acfunApi.throwBanana)
+    .set("Cookie", getAcfunCookies())
+    // .set('referer', 'https://www.acfun.cn/a/ac<x>') //文章
+    .set("referer", `https://www.acfun.cn/v/ac${videoInfo.cid}`)
+    .type("form")
+    .send({
+      resourceId: videoInfo.cid,
+      // resourceType: 3, //文章
+      resourceType: 2,
+      count: Math.floor(Math.random() * 5 + 1),
+    });
+  if (response.body.result === 0) {
+    const result = {
+      title: videoInfo.title,
+      thrownBanana: response.body.extData.bananaRealCount,
+      author: videoInfo.author,
+    };
+    return Promise.resolve(result);
+  } else {
+    return Promise.reject(response.body.error_msg);
+  }
 }
-
 
 // Promise.all接口测试  获取视频初始弹幕
 // async function getDanMu(videoInfo) {
@@ -61,8 +62,6 @@ async function doThrowBanana(videoInfo) {
 //     }
 //     return Promise.resolve(result)
 // }
-
-
 
 // videoInfo
 

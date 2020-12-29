@@ -1,13 +1,13 @@
-'use strict';
-import acfunMain from './acfun';
+"use strict";
+import acfunMain from "./acfun";
 
 // scf run
 exports.main_handler = async (event, context, callback) => {
-    acfunMain();
-    return "done";
+  acfunMain();
+  return "done";
 };
 
 // dev env run
-if (process.env.RUNTIME_ENV !== 'scf') {
-    acfunMain();
+if (process.env.RUNTIME_ENV !== "scf") {
+  acfunMain();
 }
