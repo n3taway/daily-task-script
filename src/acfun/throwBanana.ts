@@ -1,5 +1,4 @@
 import Superagent from "superagent";
-import Notification from "../notification";
 import { acfunApi } from "./constant";
 import { getAcfunCookies } from "../secret";
 
@@ -7,9 +6,11 @@ export default async function throwBanana(feedList: Array<any>) {
   const videoList = feedList.filter((item) => !item.isArticle);
   // const getDanMuResult = await Promise.all(videoList.map((videoInfo) => getDanMu(videoInfo)));
   try {
-    const throwBananaResult = await Promise.all(
-      videoList.map((videoInfo) => doThrowBanana(videoInfo))
-    );
+    let throwBananaResult = [];
+    for (let videoInfo of videoList) {
+      const data = await doThrowBanana(videoInfo);
+      throwBananaResult.push(data);
+    }
     return Promise.resolve(throwBananaResult);
   } catch (error) {
     return Promise.reject({
@@ -39,6 +40,7 @@ async function doThrowBanana(videoInfo) {
       thrownBanana: response.body.extData.bananaRealCount,
       author: videoInfo.author,
     };
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     return Promise.resolve(result);
   } else {
     return Promise.reject(response.body.error_msg);

@@ -10,6 +10,7 @@
 
 /dist
 .DS_Store
+.history
 
 npm-debug.log
 yarn-error.log
