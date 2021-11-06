@@ -3,26 +3,30 @@ import { acfunApi } from "./constant";
 import { getAcfunCookies } from "../secret";
 
 export default async function throwBanana(feedList: Array<any>) {
+  // case1 一来就没蕉
+  // case2 投一半没蕉
   const videoList = feedList.filter((item) => !item.isArticle);
-  // const getDanMuResult = await Promise.all(videoList.map((videoInfo) => getDanMu(videoInfo)));
-  try {
-    let throwBananaResult = [];
-    for (let videoInfo of videoList) {
-      const data = await doThrowBanana(videoInfo);
+  let throwBananaResult = [];
+  for (let videoInfo of videoList) {
+    const data = await doThrowBanana(videoInfo);
+    if (data.error) {
+      break;
+    } else {
       throwBananaResult.push(data);
     }
-    return Promise.resolve(throwBananaResult);
-  } catch (error) {
-    return Promise.reject({
-      title: "投蕉失败",
-      content: `${error}`,
-      api: `${acfunApi.throwBanana}`,
-    });
   }
+  if (throwBananaResult.length) {
+    return Promise.resolve(throwBananaResult);
+  }
+  return Promise.reject({
+    title: "投蕉失败",
+    content: "🈚️🍌",
+    api: `${acfunApi.throwBanana}`,
+  });
 }
 
 // 投蕉
-async function doThrowBanana(videoInfo) {
+async function doThrowBanana(videoInfo): Promise<any> {
   const response = await Superagent.post(acfunApi.throwBanana)
     .set("Cookie", getAcfunCookies())
     // .set('referer', 'https://www.acfun.cn/a/ac<x>') //文章
@@ -32,7 +36,7 @@ async function doThrowBanana(videoInfo) {
       resourceId: videoInfo.cid,
       // resourceType: 3, //文章
       resourceType: 2,
-      count: Math.floor(Math.random() * 5 + 1),
+      count: Math.floor(Math.random() * 3 + 1),
     });
   if (response.body.result === 0) {
     const result = {
@@ -43,61 +47,6 @@ async function doThrowBanana(videoInfo) {
     await new Promise((resolve) => setTimeout(resolve, 5000));
     return Promise.resolve(result);
   } else {
-    return Promise.reject(response.body.error_msg);
+    return Promise.resolve({ error: true });
   }
 }
-
-// Promise.all接口测试  获取视频初始弹幕
-// async function getDanMu(videoInfo) {
-//     const response = await Superagent
-//         .post(acfunApi.danmakuPoll)
-//         .set('Cookie', getAcfunCookies())
-//         .type('form')
-//         .send({
-//             videoId: videoInfo.vid,
-//             lastFetchTime: 0,
-//             enableAdvanced: true,
-//         });
-//     const result = {
-//         title: videoInfo.title,
-//         onlineCount: response.body.onlineCount,
-//     }
-//     return Promise.resolve(result)
-// }
-
-// videoInfo
-
-// {
-//     "contentClass": "",
-//     "goldBanana": 208,
-//     "allowDanmaku": false,
-//     "isSignedUpCollege": true,
-//     "title": "传统鲁菜：爆炒腰花及其它几种腰子做法，据说一看就会，一学就废",
-//     "userImg": "https://tx-free-imgs.acfun.cn/content/2020_8_14/1.5973845464385316E9.png?imageslim",
-//     "verifiedType": 0,
-//     "verifiedText": "",
-//     "aid": 19884820,
-//     "views": 1336,
-//     "vid": 16195023, <=================================> videoId
-//     "isArticle": false,
-//     "author": "王一刀",
-//     "stows": 5,
-//     "avatar": "https://tx-free-imgs.acfun.cn/content/2020_8_14/1.5973845464385316E9.png?imageslim",
-//     "errorlog": "",
-//     "releaseDate": 1605872003455,
-//     "danmakuSize": 12,
-//     "titleImg": "https://imgs.aixifan.com/o_1enim20u2kmp183n6eo1s0f19ov0.jpeg",
-//     "shareUrl": "http://m.acfun.cn/v/?ac=19884820",
-//     "userId": 9424219,
-//     "channelId": 89,
-//     "cid": 19884820,
-//     "score": 0,
-//     "time": 579412,
-//     "tags": "",
-//     "description": "传统鲁菜...",
-//     "success": true,
-//     "username": "王一刀",
-//     "url": "/v/ac19884820",
-//     "comments": 8,
-//     "sign": "原创生活美食视频，每周更新！！！"
-// }
