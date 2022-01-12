@@ -12,14 +12,14 @@ export default async function acfunMain() {
     let contentText = "";
     throwBananaResult.forEach((item: any) => {
       contentText = contentText.concat(
-        `\n 蕉易：${item.thrownBanana} \n \n 视频作者：${item.author} \n \n 视频名称：${item.title} \n ----------------- \n`
+        `\n 蕉易：🍌 x ${item.thrownBanana} \n \n 视频作者：${item.author} \n \n 视频名称：${item.title} \n ----------------- \n`
       );
     });
     contentText = contentText.concat(
-      `\n ${personalResult.userName}剩余普通香蕉${personalResult.banana} \n`
+      `\n用户《${personalResult.userName}》剩余普通香蕉：🍌 x ${personalResult.banana} \n`
     );
     new Notification().push({
-      title: "今日蕉易",
+      title: "今日蕉易🍌",
       content: contentText,
     });
   } catch (error) {

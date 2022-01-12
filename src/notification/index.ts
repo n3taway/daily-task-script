@@ -17,11 +17,11 @@ class Notification {
       .type("form")
       .send({
         text: msg.title,
-        desp: `####-------------------\n${
+        desp: `${
           msg.content
-        }\n####time\nlocaleTime: ${new Date().toLocaleTimeString()}\n####api\n${
+        }\n#### time\nlocaleTime: ${new Date().toLocaleTimeString()}\n #### api\n${
           msg.api || "空"
-        }\n####callStack\n${msg.callStack || "空"} \n ####runTimeEnv\n ${
+        }\n#### callStack\n${msg.callStack || "空"} \n #### runTimeEnv\n ${
           process.env.RUNTIME_ENV || "development"
         }`,
       });

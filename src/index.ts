@@ -3,7 +3,7 @@ import acfunMain from "./acfun";
 
 // scf run
 exports.main_handler = async (event, context, callback) => {
-  acfunMain();
+  await acfunMain();
   return "done";
 };
 
