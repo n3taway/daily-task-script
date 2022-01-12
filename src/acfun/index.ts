@@ -5,6 +5,7 @@ import personalInfo from "./personalInfo";
 
 export default async function acfunMain() {
   try {
+    await personalInfo();
     const feedListResult = await followFeed();
     const throwBananaResult = await throwBanana(feedListResult);
     const personalResult = await personalInfo();
